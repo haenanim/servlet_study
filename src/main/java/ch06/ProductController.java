@@ -1,4 +1,4 @@
-package ch05;
+package ch06;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +10,20 @@ import java.io.IOException;
 //@WebServlet("/ProductController")
 public class ProductController extends HttpServlet {
   ProductService services;
-  public ProductController() {
+
+  public void init() throws ServletException {
     services = new ProductService();
+    services.open();
+  }
+  @Override
+  public void destroy() {
+    services.open();
   }
 
-//  @Override
-//  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//    String id = req.getParameter("id");
-//    String name = req.getParameter("name");
-//    String maker = req.getParameter("maker");
-//    String price = req.getParameter("price");
-//    System.out.println(id + name + maker + price);
-//  }
+
+  public ProductController() {
+
+  }
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,11 +40,11 @@ public class ProductController extends HttpServlet {
       } else if(action.equals("info")) {
         view = info(req,resp);
       } else if(action.equals("update")) {
-        view = update(req,resp);
+//        view = update(req,resp);
 
       }
 
-      getServletContext().getRequestDispatcher("/ch05/"+view)
+      getServletContext().getRequestDispatcher("/ch06/"+view)
           .forward(req,resp);
     }
   }
@@ -56,13 +58,13 @@ public class ProductController extends HttpServlet {
     req.setAttribute("p", services.findById(req.getParameter("id")));
     return "productinfo.jsp";
   }
-  private String update(HttpServletRequest req, HttpServletResponse resp){
-    String id = req.getParameter("id");
-    String name = req.getParameter("name");
-    String maker = req.getParameter("maker");
-    String price = req.getParameter("price");
-    System.out.println(id + name + maker + price);
-    services.updateById(id,name,maker,price);
-    return "productinfo.jsp";
-  }
+//  private String update(HttpServletRequest req, HttpServletResponse resp){
+//    String id = req.getParameter("id");
+//    String name = req.getParameter("name");
+//    String maker = req.getParameter("maker");
+//    String price = req.getParameter("price");
+//    System.out.println(id + name + maker + price);
+//    services.updateById(id,name,maker,price);
+//    return "productinfo.jsp";
+//  }
 }

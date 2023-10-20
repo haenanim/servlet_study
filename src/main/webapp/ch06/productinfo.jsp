@@ -15,6 +15,7 @@
 <li>price : ${p.price}</li>
 <li>date : ${p.date}</li>
 <li></li>
+<a>삭제하기</a><a>수정하기</a>
 </ul>
 </body>
 </html>
